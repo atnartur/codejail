@@ -46,7 +46,7 @@ class JailMixin(TestCase):
     current virtualenv with -sandbox appended and the user named `'sandbox'`.
     """
 
-    _codejail_venv = os.environ.get('CODEJAIL_TEST_VENV')
+    _codejail_venv = os.environ.get('CODEJAIL_TEST_VENV', os.environ.get('VIRTUAL_ENV'))
     _codejail_user = os.environ.get('CODEJAIL_TEST_USER', 'sandbox')
 
     def setUp(self):

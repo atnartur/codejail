@@ -12,7 +12,7 @@ import time
 import unittest
 
 import mock
-from nose.plugins.skip import SkipTest
+import pytest
 
 from codejail.jail import JailResult
 from codejail.jail_code import jail_code
@@ -540,16 +540,10 @@ class TestMalware(JailCodeMixin, unittest.TestCase):
         self.assertEqual(res.stdout, "Done.\n")
 
 
+@pytest.mark.skipif(not int(os.environ.get("CODEJAIL_PROXY", "0")),
+                    reason="Aren't using the codejail proxy.")
 class TestProxyProcess(JailCodeMixin, unittest.TestCase):
     """Tests of the proxy process."""
-
-    def setUp(self):
-        # During testing, the proxy is used if the environment variable is set.
-        # Skip these tests if we aren't using the proxy.
-        if not int(os.environ.get("CODEJAIL_PROXY", "0")):
-            raise SkipTest("No proxy configured")
-
-        super(TestProxyProcess, self).setUp()
 
     def run_ok(self):
         """Run some code to see that it works."""
